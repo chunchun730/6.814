@@ -26,13 +26,15 @@ imdb=> explain select title, year from movies order by title;
 6. Running with seq scan on people_reduced takes 0.2777 ms, and index only scan takes 0.270 ms. A slight improvement, so Postgres isn't optimizing it. Postgres is clearly estimating the cost wrong for index only scan and seq scan.
 ```
 imdb=> explain analyze select name from people_reduced;
- Seq Scan on people_reduced  (cost=0.00..18.00 rows=1000 width=14) (actual time=0.010..0.209 rows=1000 loops=1)
+ Seq Scan on people_reduced  (cost=0.00..18.00 rows=1000 width=14) 
+  (actual time=0.010..0.209 rows=1000 loops=1)
  Planning time: 0.185 ms
  Execution time: 0.277 ms
 imdb=> set enable_seqscan=off;
 SET
 imdb=> explain analyze select name from people_reduced;
- Index Only Scan using people_reduced_name on people_reduced  (cost=0.28..43.27 rows=1000 width=14) (actual time=0.047..0.205 rows=1000 loops=1)
+ Index Only Scan using people_reduced_name on people_reduced  (cost=0.28..43.27 rows=1000 width=14) 
+   (actual time=0.047..0.205 rows=1000 loops=1)
    Heap Fetches: 0
  Planning time: 0.056 ms
  Execution time: 0.270 ms
@@ -40,14 +42,16 @@ imdb=> explain analyze select name from people_reduced;
 Running seq scan takes 0.587 ms which is slower than its planned index only scan that only takes 0.237 ms. The estimated cost for both scans are off from the actual cost, and the estimated ratio between the two scans is also off, but because it estimates seq scan slower it made the right choice on index only scan.
 ```
 imdb=> explain analyze select name from people_wide;
- Index Only Scan using people_wide_name on people_wide  (cost=0.28..43.27 rows=1000 width=14) (actual time=0.021..0.137 rows=1000 loops=1)
+ Index Only Scan using people_wide_name on people_wide  (cost=0.28..43.27 rows=1000 width=14) 
+   (actual time=0.021..0.137 rows=1000 loops=1)
    Heap Fetches: 0
  Planning time: 0.077 ms
  Execution time: 0.237 ms
 imdb=> set enable_indexonlyscan=off;
 SET
 imdb=> explain analyze select name from people_wide;
- Seq Scan on people_wide  (cost=0.00..50.00 rows=1000 width=14) (actual time=0.008..0.510 rows=1000 loops=1)
+ Seq Scan on people_wide  (cost=0.00..50.00 rows=1000 width=14) 
+ (actual time=0.008..0.510 rows=1000 loops=1)
  Planning time: 0.048 ms
  Execution time: 0.587 ms
 ```

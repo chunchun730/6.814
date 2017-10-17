@@ -148,7 +148,7 @@ Q2050 every estimate except aggregate in the end is much higher than the actual 
 
 12. When year is > 2016, it switches the plan. It is reasonable since there are much less movies relatively consider it is only 2017.
 
-13. ![alert text](https://drive.google.com/file/d/0B6MVTDt9ZRosbTFIVWJDQm5YQ0k/view?usp=sharing "13")
+13. https://drive.google.com/file/d/0B6MVTDt9ZRosbTFIVWJDQm5YQ0k/view?usp=sharing 
 
 14. About 600ms.
 
